@@ -7,7 +7,7 @@
 namespace Tile {
     constexpr char WALL    = '#';
     constexpr char FLOOR   = '.';
-    constexpr char CORRIDOR = '+';
+    constexpr char CORRIDOR = ' ';
     constexpr char PLAYER  = '@';
     constexpr char EMPTY   = ' ';
 }

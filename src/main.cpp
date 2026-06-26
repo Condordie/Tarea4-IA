@@ -1,20 +1,27 @@
 #include <iostream>
+#include <cstring>
 #include "bsp_tree.h"
 #include "map_renderer.h"
 
 int main(int argc, char* argv[]) {
     BSPConfig config;
+    bool animate = false;
 
-    // Permite pasar una semilla distinta como argumento: ./bsp_dungeon 1234
-    if (argc > 1) {
-        try {
-            config.seed = static_cast<unsigned int>(std::stoul(argv[1]));
-        } catch (...) {
-            std::cerr << "Semilla invalida, usando valor por defecto (" << config.seed << ")\n";
+    // Permite pasar una semilla distinta como argumento: ./bsp_dungeon 1234 --animate
+    for (int i = 1; i < argc; ++i) {
+        if (std::strcmp(argv[i], "--animate") == 0) {
+            animate = true;
+        } else if (argv[i][0] != '-') {
+            try {
+                config.seed = static_cast<unsigned int>(std::stoul(argv[i]));
+            } catch (...) {
+                std::cerr << "Semilla invalida, usando valor por defecto (" << config.seed << ")\n";
+            }
         }
     }
 
     BSPTree tree(config);
+    tree.setAnimate(animate);
     tree.generate();
 
     auto rooms    = tree.getRooms();
