@@ -64,8 +64,17 @@ void BSPTree::collectLeafRegions(BSPNode* node, std::vector<Rect>& leaves) const
 }
 
 void BSPTree::generate() {
+    auto t0 = std::chrono::high_resolution_clock::now();
+
     split(root.get(), 0);
     buildRooms(root.get());
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    lastGenerationTimeMs = std::chrono::duration<double, std::milli>(t1 - t0).count();
+}
+
+double BSPTree::getLastGenerationTimeMs() const {
+    return lastGenerationTimeMs;
 }
 
 // Divide el nodo en dos hijos eligiendo un eje (horizontal o vertical) al azar
@@ -155,7 +164,6 @@ void BSPTree::connectRooms(BSPNode* left, BSPNode* right) {
         corridors.push_back({ ca, { ca.first, cb.second } });
         corridors.push_back({ { ca.first, cb.second }, cb });
     }
-    corridors.push_back({ ca, cb });
 }
 
 // Busca cualquier habitación dentro del subárbol (preferentemente en hojas)

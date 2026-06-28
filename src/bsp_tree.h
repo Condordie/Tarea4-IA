@@ -51,11 +51,15 @@ public:
     // Activa la visualización paso a paso de las particiones BSP
     void setAnimate(bool value);
 
+    // Tiempo que tomó la última llamada a generate(), en milisegundos
+    double getLastGenerationTimeMs() const;
+
 private:
     BSPConfig cfg;
     std::mt19937 rng;
     std::unique_ptr<BSPNode> root;
     bool animate = false;
+    double lastGenerationTimeMs = 0.0;
 
     // Dibuja las regiones actuales para mostrar el proceso de particionado
     void renderPartitions() const;
